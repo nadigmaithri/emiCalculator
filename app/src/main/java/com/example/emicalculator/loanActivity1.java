@@ -3,13 +3,99 @@ package com.example.emicalculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Button;
+import android.widget.EditText;
 
-public class loanActivity1 extends AppCompatActivity {
+public class loanActivity1 extends AppCompatActivity  {
+    Button calc;
+    EditText p,r,t,intrest,result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan1);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        p=(EditText)findViewById(R.id.principal);
+        r=(EditText)findViewById(R.id.rate);
+        t=(EditText)findViewById(R.id.years);
+        intrest=(EditText)findViewById(R.id.intrest);
+        result=(EditText)findViewById(R.id.emi);
+        calc=(Button)findViewById(R.id.calculate);
+        calc.setOnClickListener((v -> {
+            String st1= p.getText().toString();
+            String st2 = r.getText().toString();
+            String st3 = t.getText().toString();
+            if(TextUtils.isEmpty(st1)){
+                p.setError("Enter principal Amount");
+                p.requestFocus();
+                return;
+            }
+            if(TextUtils.isEmpty(st2)){
+                r.setError("Enter Intrest rates");
+                r.requestFocus();
+                return;
+            }
+            if(TextUtils.isEmpty(st3)){
+                t.setError("Enter time");
+                t.requestFocus();
+                return;
+            }
+            float princi  =Float.parseFloat(st1);
+            float intr = Float.parseFloat(st2);
+            float year = Float.parseFloat(st3);
+
+            float principal = calPric(princi);
+            float rate = calInt(intr);
+            float months = calMonth(year);
+             float dvdnt =calDvdnt(rate,months);
+             float FD = calfinalDvdnt(principal,rate,dvdnt);
+             float D = calDivider(dvdnt);
+             float emi = calEmi(FD,D);
+             float TA= calTA(emi,months);
+             float TI = calToatlIntrest(TA,principal);
+             result.setText(String.valueOf(emi));
+             intrest.setText(String.valueOf(TI));
+
+
+
+        }));
+
+    }
+
+    public float calToatlIntrest(float TA, float principal) {
+        return (float)(TA-principal);
+    }
+
+    public float calTA(float emi, float months) {
+        return (float)(emi*months);
+    }
+
+    public float calEmi(float FD, float D) {
+        return (float)(FD/D);
+    }
+
+    public float calDivider(float dvdnt) {
+        return (float) (dvdnt-1);
+    }
+
+    public float calfinalDvdnt(float principal, float rate, float dvdnt) {
+        return (float)(principal*rate*dvdnt);
+    }
+
+    public float calDvdnt(float rate, float months) {
+        return (float) (Math.pow(1+rate,months));
+    }
+
+    public float calMonth(float year) {
+        return (float) (year*12);
+    }
+
+    public float calInt(float intr) {
+        return (float) (intr/12/100);
+    }
+
+    public float calPric(float princi) {
+        return (float) princi;
     }
 }
