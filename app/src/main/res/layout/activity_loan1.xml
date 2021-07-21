@@ -18,10 +18,89 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp">
+<!--            principal amt-->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/inputtxt"></com.google.android.material.textfield.TextInputLayout>
+                android:id="@+id/inputtxt1">
+                <EditText
+                    android:id="@+id/principal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:hint="Principal Amount"/>
+            </com.google.android.material.textfield.TextInputLayout>
+<!--            RATE-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputtxt2">
+                <EditText
+                    android:id="@+id/rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:hint="Interest rates per year%"/>
+            </com.google.android.material.textfield.TextInputLayout>
+<!--            time-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputtxt3">
+                <EditText
+                    android:id="@+id/years"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:hint="Time"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/calculate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@color/black"
+                android:text="Calculate"
+                app:backgroundTint="#FB8C00" />
+            <!-- EMI-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputtxtemi"
+                android:layout_marginTop="40dp">
+                <EditText
+                    android:id="@+id/emi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxEms="0"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:hint="EMI"/>
+            </com.google.android.material.textfield.TextInputLayout>
+<!--              INTREST-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputtxtintrest"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/intrest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxEms="0"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:hint="TOTAL INTREST FOR YOUR LOAN"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
