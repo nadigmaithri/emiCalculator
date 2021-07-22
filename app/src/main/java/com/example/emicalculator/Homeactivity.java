@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 public class Homeactivity extends AppCompatActivity implements View.OnClickListener {
   ImageButton homel,edul,personall,carl;
+  int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,39 @@ public class Homeactivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.equals(homel)|v.equals(edul)|v.equals(personall)|v.equals(carl)){
+        if(v.equals(homel)){
+            mode=1;
             Intent it = new Intent(this,loanActivity1.class);
+            it.putExtra("mode",mode);
+            it.putExtra("link","https://www.bankbazaar.com/home-loan-interest-rate.html");
             startActivity(it);
 
         }
+        else if(v.equals(personall)){
+            mode=2;
+            Intent it = new Intent(this,loanActivity1.class);
+            it.putExtra("mode",mode);
+            it.putExtra("link","https://www.bankbazaar.com/personal-loan-interest-rate.html");
+            startActivity(it);
+
+        }
+        else if(v.equals(edul)){
+            mode=3;
+            Intent it = new Intent(this,loanActivity1.class);
+            it.putExtra("mode",mode);
+            it.putExtra("link","https://www.bankbazaar.com/education-loan-interest-rate.html");
+            startActivity(it);
+
+        }
+        else if(v.equals(carl)){
+            mode=4;
+            Intent it = new Intent(this,loanActivity1.class);
+            it.putExtra("mode",mode);
+            it.putExtra("link","https://www.bankbazaar.com/car-loan-interest-rate.html");
+            startActivity(it);
+
+        }
+
 
     }
 }
