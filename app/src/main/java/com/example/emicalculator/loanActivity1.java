@@ -2,9 +2,14 @@ package com.example.emicalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +22,7 @@ public class loanActivity1 extends AppCompatActivity  {
     TextView loant;
     int mode;
     String website;
+    IaidlService mservice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +34,8 @@ public class loanActivity1 extends AppCompatActivity  {
         Intent it= getIntent();
         mode = it.getIntExtra("mode",0);
         website= it.getStringExtra("link");
-        System.out.println(website);
-        System.out.println(mode);
+//        System.out.println(website);
+//        System.out.println(mode);
         switch (mode){
                 case 1: loant.setText("HOME LOAN");break;
                 case 2: loant.setText("PERSONAL LOAN");break;
@@ -49,6 +55,8 @@ public class loanActivity1 extends AppCompatActivity  {
         totamount=(EditText)findViewById(R.id.totamt);
         result=(EditText)findViewById(R.id.emi);
         reset=(Button)findViewById(R.id.reset);
+        Intent intentService = new Intent(this,emiService.class);
+        bindService(intentService,mconnection, Context.BIND_AUTO_CREATE);
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,56 +91,72 @@ public class loanActivity1 extends AppCompatActivity  {
             float princi  =Float.parseFloat(st1);
             float intr = Float.parseFloat(st2);
             float year = Float.parseFloat(st3);
-
-            float principal = calPric(princi);
-            float rate = calInt(intr);
-            float months = calMonth(year);
-             float dvdnt =calDvdnt(rate,months);
-             float FD = calfinalDvdnt(principal,rate,dvdnt);
-             float D = calDivider(dvdnt);
-             float emi = calEmi(FD,D);
-             float TA= calTA(emi,months);
-             float TI = calToatlIntrest(TA,principal);
+            float principal,rate,months,dvdnt,FD,D,emi=0,TA=0,TI=0;
+            try {
+                 principal = mservice.calPric(princi);
+                 rate = mservice.calInt(intr);
+                 months = mservice.calMonth(year);
+                 dvdnt = mservice.calDvdnt(rate, months);
+                 FD = mservice.calfinalDvdnt(principal, rate, dvdnt);
+                 D = mservice.calDivider(dvdnt);
+                emi = mservice.calEmi(FD, D);
+                 TA = mservice.calTA(emi, months);
+                 TI = mservice.calToatlIntrest(TA, principal);
+            }catch (RemoteException e){
+                e.printStackTrace();
+            }
              result.setText("₹ "+String.valueOf(emi));
              intrest.setText("₹ "+String.valueOf(TI));
-            totamount.setText("₹ "+String.valueOf(TA));//or TI
+            totamount.setText("₹ "+String.valueOf(TA));
         }));
 
     }
+    ServiceConnection mconnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mservice = IaidlService.Stub.asInterface(service);
 
-    public float calToatlIntrest(float TA, float principal) {
-        return (float)(TA-principal);
-    }
+        }
 
-    public float calTA(float emi, float months) {
-        return (float)(emi*months);
-    }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
 
-    public float calEmi(float FD, float D) {
-        return (float)(FD/D);
-    }
+        }
+    };
 
-    public float calDivider(float dvdnt) {
-        return (float) (dvdnt-1);
-    }
-
-    public float calfinalDvdnt(float principal, float rate, float dvdnt) {
-        return (float)(principal*rate*dvdnt);
-    }
-
-    public float calDvdnt(float rate, float months) {
-        return (float) (Math.pow(1+rate,months));
-    }
-
-    public float calMonth(float year) {
-        return (float) (year*12);
-    }
-
-    public float calInt(float intr) {
-        return (float) (intr/12/100);
-    }
-
-    public float calPric(float princi) {
-        return (float) princi;
-    }
+//    public float calToatlIntrest(float TA, float principal) {
+//        return (float)(TA-principal);
+//    }
+//
+//    public float calTA(float emi, float months) {
+//        return (float)(emi*months);
+//    }
+//
+//    public float calEmi(float FD, float D) {
+//        return (float)(FD/D);
+//    }
+//
+//    public float calDivider(float dvdnt) {
+//        return (float) (dvdnt-1);
+//    }
+//
+//    public float calfinalDvdnt(float principal, float rate, float dvdnt) {
+//        return (float)(principal*rate*dvdnt);
+//    }
+//
+//    public float calDvdnt(float rate, float months) {
+//        return (float) (Math.pow(1+rate,months));
+//    }
+//
+//    public float calMonth(float year) {
+//        return (float) (year*12);
+//    }
+//
+//    public float calInt(float intr) {
+//        return (float) (intr/12/100);
+//    }
+//
+//    public float calPric(float princi) {
+//        return (float) princi;
+//    }
 }
