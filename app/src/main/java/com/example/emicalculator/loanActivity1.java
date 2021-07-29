@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class loanActivity1 extends AppCompatActivity  {
     Button calc,reset,link;
-    EditText p,r,t,intrest,result;
+    EditText p,r,t,intrest,result,totamount;
     TextView loant;
     int mode;
     String website;
@@ -46,6 +46,7 @@ public class loanActivity1 extends AppCompatActivity  {
         r=(EditText)findViewById(R.id.rate);
         t=(EditText)findViewById(R.id.years);
         intrest=(EditText)findViewById(R.id.intrest);
+        totamount=(EditText)findViewById(R.id.totamt);
         result=(EditText)findViewById(R.id.emi);
         reset=(Button)findViewById(R.id.reset);
         reset.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,7 @@ public class loanActivity1 extends AppCompatActivity  {
                 intrest.setText("");
                 result.setText("");
                 t.setText("");
+                totamount.setText("");
             }
         });
         calc=(Button)findViewById(R.id.calculate);
@@ -92,10 +94,8 @@ public class loanActivity1 extends AppCompatActivity  {
              float TA= calTA(emi,months);
              float TI = calToatlIntrest(TA,principal);
              result.setText("₹ "+String.valueOf(emi));
-             intrest.setText("₹ "+String.valueOf(TA));//or TI
-
-
-
+             intrest.setText("₹ "+String.valueOf(TI));
+            totamount.setText("₹ "+String.valueOf(TA));//or TI
         }));
 
     }

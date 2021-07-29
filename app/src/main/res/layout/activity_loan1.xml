@@ -13,7 +13,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -117,6 +118,21 @@
                     android:singleLine="true"
                     android:inputType="number"
                     android:hint="TOTAL INTREST FOR YOUR LOAN"/>
+            </com.google.android.material.textfield.TextInputLayout>
+<!--             total amount-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputtxttotamt"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/totamt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxEms="0"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:hint="TOTAL AMOUNT FOR YOUR LOAN"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
